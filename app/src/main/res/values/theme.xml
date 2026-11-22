@@ -1,0 +1,12 @@
+<resources>
+    <style name="ShantoTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">@color/shanto_accent</item>
+        <item name="android:colorControlActivated">@color/shanto_accent</item>
+        <item name="android:alertDialogTheme">@style/ShantoDialog</item>
+    </style>
+    <style name="ShantoDialog" parent="android:style/Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/shanto_accent</item>
+        <item name="android:colorControlActivated">@color/shanto_accent</item>
+        <item name="android:colorBackgroundFloating">@color/shanto_surface</item>
+    </style>
+</resources>

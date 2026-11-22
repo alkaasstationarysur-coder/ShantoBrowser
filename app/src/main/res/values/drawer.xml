@@ -1,0 +1,1 @@
+<resources><style name="DrawerMotion"><item name="android:windowEnterAnimation">@anim/drawer_in</item><item name="android:windowExitAnimation">@anim/drawer_out</item></style></resources>
