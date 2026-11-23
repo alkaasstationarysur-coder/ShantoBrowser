@@ -9,8 +9,8 @@ android {
         applicationId = "bd.shanto.browser.preview05"
         minSdk = 26
         targetSdk = 34
-        versionCode = 21
-        versionName = "1.9.1"
+        versionCode = 22
+        versionName = "1.9.2"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

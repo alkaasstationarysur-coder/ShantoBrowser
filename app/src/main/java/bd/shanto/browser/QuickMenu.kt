@@ -25,7 +25,7 @@ private class Etching(c:Context,val hue:String):View(c){
     override fun onDraw(c:Canvas){c.save(); c.scale(width/132f,height/82f);c.rotate(-23f,95f,0f)
         for(i in 0..9){val r=18f+i*6f;c.drawOval(96f-r,-r*.65f,96f+r,r*.65f,pen)};c.restore()}
 }
-internal fun Activity.quickMenu(page:String?,stored:Boolean,engineGoogle:Boolean,ads:Boolean,except:Boolean,blockedCount:()->Int,onAds:(Boolean,Boolean)->Unit,onMark:()->Unit,onQr:()->Unit,onEngine:(Boolean)->Unit,onLanguage:(String)->Unit,textZoom:Int,onZoom:(Int)->Unit){
+internal fun Activity.quickMenu(page:String?,stored:Boolean,engineGoogle:Boolean,ads:Boolean,except:Boolean,blockedCount:()->Int,onAds:(Boolean,Boolean)->Unit,onMark:()->Unit,onQr:()->Unit,onEngine:(Boolean)->Unit,onLanguage:(String)->Unit,textZoom:Int,onZoom:(Int)->Unit,scripts:Boolean,onScripts:(Boolean)->Unit){
     fun tone(light:String,dark:String)=if(darkPalette) dark else light
     val surface=tone("#FCFBF5","#19241F"); val fg=tone("#172C23","#F2F4E9");val muted=tone("#516457","#B3C0B4")
     val line=tone("#DADFD2","#3E4D41");val accent=tone("#C7EC8A","#C4E990");val accentInk="#233720"
@@ -61,7 +61,7 @@ internal fun Activity.quickMenu(page:String?,stored:Boolean,engineGoogle:Boolean
     names.forEachIndexed{i,name->val row=object:LinearLayout(this){override fun onInitializeAccessibilityNodeInfo(info:AccessibilityNodeInfo){super.onInitializeAccessibilityNodeInfo(info);info.className="android.widget.RadioButton";info.isCheckable=true;info.isChecked=isSelected}}.apply {gravity=Gravity.CENTER;minimumHeight=dp(48)};track.addView(row,LinearLayout.LayoutParams(0,-2,1f));val tick=Glyph(this,"check").apply {tint(accentInk)};ticks.add(tick);row.addView(tick,dp(13),dp(13));val label=words(name,14,fg,true).apply {pad(3,0);text=spoken(name,tags[i])};row.addView(label);choices.add(row to label);row.tap(name){select(i==1);change(i==1)} };select(second)
     }
 
-    // Order: page actions (bookmark, QR) -> ad blocking (used most) -> page text size -> search engine and language (rarely changed).
+    // Order: page actions (bookmark, QR) -> ad blocking (used most) -> page text size -> search engine, site scripts (Google needs them) and language (rarely changed).
     body.addView(View(this).apply {setBackgroundColor(color(line))},-1,dp(1))
     var switchOn=ads;var bypass=except
     val master=Switch(this).apply {text=getString(R.string.ad_blocking);textSize=16f;setTextColor(color(fg));minimumHeight=dp(52);isChecked=ads};body.addView(master)
@@ -92,6 +92,10 @@ internal fun Activity.quickMenu(page:String?,stored:Boolean,engineGoogle:Boolean
     body.gap(14);body.addView(View(this).apply {setBackgroundColor(color(line))},-1,dp(1));body.gap(14)
     val engineLabel=getString(R.string.ui_search_engine);body.addView(words(engineLabel,14,muted,true).heading());body.gap(8)
     segmented(engineLabel,listOf("DuckDuckGo","Google"),listOf("en","en"),engineGoogle,onEngine)
+    // 1.9.2: Google's search page does not work without JavaScript. One switch for scripts + page storage + cookies (off by default, as before).
+    body.gap(10)
+    body.addView(Switch(this).apply {text=getString(R.string.ui_js_label);textSize=15f;setTextColor(color(fg));minimumHeight=dp(52);isChecked=scripts;setOnCheckedChangeListener { _,on->onScripts(on) }})
+    body.addView(note(R.string.ui_js_note))
     body.gap(14);val languageLabel=getString(R.string.ui_app_language);body.addView(words(languageLabel,14,muted,true).heading());body.gap(8)
     val en=resources.configuration.locales[0].language=="en"
     segmented(languageLabel,listOf("বাংলা","English"),listOf("bn","en"),en){next->if(next!=en){dialog.dismiss();onLanguage(if(next)"en" else "bn")}}

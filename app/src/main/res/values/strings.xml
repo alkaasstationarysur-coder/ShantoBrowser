@@ -98,4 +98,6 @@
     <item quantity="one">"%1$d new bookmark added."</item>
     <item quantity="other">"%1$d new bookmarks added."</item>
   </plurals>
+  <string name="ui_js_label">"Site scripts and cookies (JavaScript)"</string>
+  <string name="ui_js_note">"While this is off, many sites, including Google, won't work. Turning it on lets sites run scripts and use cookies. The current page reloads when you change it; turning it off clears stored cookies."</string>
 </resources>

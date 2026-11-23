@@ -98,4 +98,6 @@
     <item quantity="one">"%1$dটি নতুন বুকমার্ক যোগ হয়েছে।"</item>
     <item quantity="other">"%1$dটি নতুন বুকমার্ক যোগ হয়েছে।"</item>
   </plurals>
+  <string name="ui_js_label">"সাইটের স্ক্রিপ্ট ও কুকি (JavaScript)"</string>
+  <string name="ui_js_note">"বন্ধ থাকলে Google-সহ অনেক সাইট চলে না। চালু করলে সাইটগুলো স্ক্রিপ্ট ও কুকি ব্যবহার করতে পারে। বদলালে বর্তমান পেজ আবার লোড হবে; বন্ধ করলে জমা কুকি মুছে যায়।"</string>
 </resources>

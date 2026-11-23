@@ -1,3 +1,5 @@
+## ১.৯.২ — JavaScript সুইচ। ☰ → ‘সাইটের স্ক্রিপ্ট ও কুকি (JavaScript)’ (সার্চ ইঞ্জিনের নিচে)। ডিফল্টে বন্ধ, আগের মতোই। Google-এর সার্চ পেজ JavaScript ছাড়া চলে না, তাই Google ব্যবহার করতে এটি চালু করুন। চালু করলে বর্তমান পেজ আবার লোড হয়; বন্ধ করলে জমা কুকি ও পেজ-স্টোরেজ মুছে যায়। বিজ্ঞাপন ব্লক দুটো অবস্থাতেই কাজ করে। GitHub-এ push করলেই APK নিজে থেকে বিল্ড হয় (Actions → Artifacts)।
+
 ## GitHub দিয়ে APK বানানো
 
 `.github/workflows/build-apk.yml` GitHub Actions-এ ‘Run workflow’ চাপলে signed release APK বানায় (Artifacts → ShantoBrowser-APK)। সাইনিং কী `keystore/shanto-release.jks` (alias `shanto`); পাসওয়ার্ড repo-র Secret `SHANTO_KEY_PASSWORD`-এ থাকে, ফাইলে নেই। এটি আগের ১.x APK-র কী নয়, তাই পুরোনো অ্যাপ মুছে নতুনটা বসাতে হবে (আগে বুকমার্ক ব্যাকআপ নিন)। কী ফাইল ও পাসওয়ার্ডের একটি করে কপি নিরাপদ জায়গায় রাখুন; হারালে ভবিষ্যতে আপডেট APK বসানো যাবে না। কী ফাইল পাসওয়ার্ডে তালাবদ্ধ; পাসওয়ার্ড কাউকে দেবেন না (repo Public হলেও)।

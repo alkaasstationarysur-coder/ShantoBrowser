@@ -336,6 +336,16 @@ class MainActivity : Activity() {
     @Deprecated("Platform back callback")
     override fun onBackPressed() { if (web.canGoBack()) move(-1) else super.onBackPressed() }
     private fun currentPage():String? = if(web.visibility==View.VISIBLE) web.url?.takeIf {policy(it)==null} else null
+    // 1.9.2: one switch for site scripts (JavaScript), page storage and cookies. It is the existing "compat" preference, off by default.
+    // Turning it off also wipes cookies and page storage, so nothing stays behind from the time it was on.
+    private fun setScripts(on:Boolean){
+        prefs.edit().putBoolean("compat",on).apply()
+        if(!::web.isInitialized) return
+        web.settings.javaScriptEnabled=on;web.settings.domStorageEnabled=on
+        val cookies=CookieManager.getInstance();cookies.setAcceptCookie(on)
+        if(!on){cookies.removeAllCookies(null);cookies.flush();WebStorage.getInstance().deleteAllData()}
+        if(web.visibility==View.VISIBLE)web.reload()
+    }
     private fun sideMenu(){
         (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(bar.windowToken,0)
         val url=currentPage()
@@ -351,7 +361,7 @@ class MainActivity : Activity() {
             persistSession();prefs.edit().putString("uiLanguage",code).apply();recreate()
         },textZoom=prefs.getInt("textZoom",100),onZoom={zoom->
             prefs.edit().putInt("textZoom",zoom).apply();if(::web.isInitialized)web.settings.textZoom=zoom
-        })
+        },scripts=compat(),onScripts=::setScripts)
     }
     private fun linkMenu(raw:String){
         val url=runCatching {java.net.URI(web.url ?: "").resolve(raw).toString()}.getOrNull() ?: return

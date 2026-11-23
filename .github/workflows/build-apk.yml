@@ -1,7 +1,9 @@
 name: Build APK
 
-# Run by hand: GitHub -> Actions -> "Build APK" -> Run workflow.
+# Runs on every push to main, and can also be started by hand: GitHub -> Actions -> "Build APK" -> Run workflow.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
